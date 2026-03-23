@@ -13,10 +13,9 @@
     .map-container {
       position: relative;
       width: 100%;
-      max-width: 1100px;
+      max-width: 1400px;
       margin: 0 auto;
-      aspect-ratio: 1 / 1;
-      max-height: 80vh;
+      min-height: 85vh;
     }
 
     .map-svg {
@@ -327,7 +326,7 @@
 <!-- Navigation -->
 <nav class="nav">
   <div class="container">
-    <div class="nav-brand">CCA<span>-Q2</span></div>
+    <a href="../index.html" class="nav-brand"><span class="brand-site">inema.club</span> <span class="brand-sep">|</span> CCA<span>-Q2</span></a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">&#9776;</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="../index.html">Inicio</a></li>
@@ -359,7 +358,7 @@
   <div class="container">
     <p class="map-instructions fade-in fade-in-delay-2">Clique em um dominio para expandir seus topicos. Clique em um topico para ver conceitos-chave.</p>
     <div class="map-container fade-in fade-in-delay-3">
-      <svg class="map-svg" id="mapSvg" viewBox="0 0 1000 1000"></svg>
+      <svg class="map-svg" id="mapSvg" viewBox="0 0 1200 1200"></svg>
     </div>
 
     <!-- Mobile accordion -->
@@ -716,15 +715,15 @@
   // ===== SVG MAP =====
   var svg = document.getElementById('mapSvg');
   var ns = 'http://www.w3.org/2000/svg';
-  var cx = 500, cy = 500;
-  var domainRadius = 280;
-  var taskRadius = 160;
+  var cx = 600, cy = 600;
+  var domainRadius = 340;
+  var taskRadius = 190;
   var expandedDomain = null;
   var nodePositions = {};
 
   // Weight-based node sizing
   function domainSize(w) {
-    return 36 + (w - 15) * 1.8;
+    return 42 + (w - 15) * 2.2;
   }
 
   // Calculate domain positions (radial, starting from top)
@@ -790,7 +789,7 @@
     wt.setAttribute('y', y - r - 12);
     wt.setAttribute('text-anchor', 'middle');
     wt.setAttribute('fill', d.color);
-    wt.setAttribute('font-size', '13');
+    wt.setAttribute('font-size', '15');
     wt.setAttribute('font-weight', '700');
     wt.textContent = d.weight + '%';
     g.appendChild(wt);
@@ -803,7 +802,7 @@
       t.setAttribute('y', y + (li - (lines.length - 1) / 2) * 16);
       t.setAttribute('text-anchor', 'middle');
       t.setAttribute('fill', '#e8e9ed');
-      t.setAttribute('font-size', '12');
+      t.setAttribute('font-size', '14');
       t.setAttribute('font-weight', '600');
       t.textContent = line;
       g.appendChild(t);
@@ -857,7 +856,7 @@
       tg.setAttribute('data-domain', d.id);
       tg.setAttribute('data-task', task.id);
 
-      var tr = 28;
+      var tr = 34;
 
       // Task circle bg
       var tc = document.createElementNS(ns, 'circle');
@@ -879,7 +878,7 @@
         tt.setAttribute('y', ty + (tli - (tLines.length - 1) / 2) * 13);
         tt.setAttribute('text-anchor', 'middle');
         tt.setAttribute('fill', '#e8e9ed');
-        tt.setAttribute('font-size', '9.5');
+        tt.setAttribute('font-size', '11');
         tt.setAttribute('font-weight', '500');
         tt.textContent = tl;
         tg.appendChild(tt);

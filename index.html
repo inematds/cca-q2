@@ -428,6 +428,148 @@
         grid-template-columns: repeat(3, 1fr);
       }
     }
+
+    /* ── Chat Widget Styles ── */
+    .chat-section {
+      padding: var(--space-2xl) 0;
+    }
+
+    .chat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .chat-card-header {
+      padding: var(--space-lg) var(--space-xl);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-card-header h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .chat-card-header p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .chat-messages {
+      max-height: 400px;
+      overflow-y: auto;
+      padding: var(--space-lg) var(--space-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      scroll-behavior: smooth;
+    }
+
+    .chat-msg {
+      max-width: 85%;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .chat-msg.assistant {
+      align-self: flex-start;
+      background: var(--bg-surface);
+      border-left: 3px solid var(--accent);
+    }
+
+    .chat-msg.user {
+      align-self: flex-end;
+      background: var(--accent-subtle);
+      color: var(--text);
+      border: 1px solid rgba(212, 115, 76, 0.2);
+    }
+
+    .chat-input-area {
+      display: flex;
+      gap: var(--space-sm);
+      padding: var(--space-md) var(--space-xl);
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      padding: 0.6em 1em;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--duration) var(--ease);
+    }
+
+    .chat-input-area input:focus {
+      border-color: var(--accent);
+    }
+
+    .chat-input-area input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .chat-send-btn {
+      padding: 0.6em 1.2em;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity var(--duration) var(--ease);
+    }
+
+    .chat-send-btn:hover {
+      opacity: 0.85;
+    }
+
+    .chat-chips {
+      display: flex;
+      gap: var(--space-sm);
+      padding: 0 var(--space-xl) var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .chat-chip {
+      padding: 0.35em 0.9em;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all var(--duration) var(--ease);
+    }
+
+    .chat-chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .chat-card-header,
+      .chat-messages,
+      .chat-input-area,
+      .chat-chips {
+        padding-left: var(--space-md);
+        padding-right: var(--space-md);
+      }
+    }
   </style>
 </head>
 <body>
@@ -438,7 +580,7 @@
   <!-- Navigation -->
   <nav class="nav" role="navigation" aria-label="Navegacao principal">
     <div class="container">
-      <a href="index.html" class="nav-brand">CCA<span>-Q2</span></a>
+      <a href="index.html" class="nav-brand"><span class="brand-site">inema.club</span> <span class="brand-sep">|</span> CCA<span>-Q2</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="3" y1="6" x2="21" y2="6"/>
@@ -477,6 +619,31 @@
         <div class="hero-actions fade-in fade-in-delay-3">
           <a href="mapa/index.html" class="btn btn-primary">Comecar pelo Mapa</a>
           <a href="cenarios/index.html" class="btn btn-secondary">Ver Cenarios</a>
+          <a href="camadas/index.html" class="btn btn-secondary">Camadas</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Study Chat -->
+    <section class="chat-section" id="chat">
+      <div class="container">
+        <div class="chat-card">
+          <div class="chat-card-header">
+            <h2>Tire suas duvidas</h2>
+            <p>Pergunte sobre qualquer topico do exame CCA-F</p>
+          </div>
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg assistant">Ola! Sou o assistente de estudos CCA. Pergunte sobre qualquer topico do exame — loop agentico, hooks, multi-agente, ferramentas, MCP, CLAUDE.md e muito mais.</div>
+          </div>
+          <div class="chat-chips" id="chatChips">
+            <button class="chat-chip" data-question="O que sao hooks?">O que sao hooks?</button>
+            <button class="chat-chip" data-question="Regras de Ouro">Regras de Ouro</button>
+            <button class="chat-chip" data-question="Como funciona o loop agentico?">Como funciona o loop agentico?</button>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Digite sua pergunta..." autocomplete="off">
+            <button class="chat-send-btn" id="chatSend">Enviar</button>
+          </div>
         </div>
       </div>
     </section>
@@ -811,6 +978,146 @@
       }, { threshold: 0.3 });
 
       bars.forEach(function(bar) { observer.observe(bar); });
+    })();
+
+    // ── Study Chat Widget ──
+    (function() {
+      var messages = document.getElementById('chatMessages');
+      var input = document.getElementById('chatInput');
+      var sendBtn = document.getElementById('chatSend');
+      var chips = document.getElementById('chatChips');
+
+      var responses = [
+        {
+          keys: ['loop', 'agentico'],
+          text: 'O loop agentico segue o ciclo: receber tarefa > analisar contexto > selecionar ferramenta > executar ferramenta > observar resultado > decidir proximo passo. O agente repete esse ciclo ate considerar a tarefa concluida ou atingir um limite de iteracoes. Cada iteracao consome tokens, entao e importante definir limites claros de parada.'
+        },
+        {
+          keys: ['hook', 'prompt', 'compliance'],
+          text: 'Regra de Ouro #1: Hooks > Prompts. Hooks (PreToolUse, PostToolUse, Notification) sao deterministicos e auditaveis — executam scripts reais antes ou depois de cada chamada de ferramenta. Ja instrucoes em prompt dependem da interpretacao do modelo e podem ser ignoradas. Para compliance e seguranca, sempre prefira hooks.'
+        },
+        {
+          keys: ['multi', 'agente', 'hub', 'spoke'],
+          text: 'A arquitetura hub-and-spoke usa um agente orquestrador (hub) que delega subtarefas a agentes especializados (spokes). Cada spoke tem escopo limitado (4-5 ferramentas) e retorna resultados ao hub. Isso permite paralelismo, isolamento de falhas e especializacao. O hub gerencia o fluxo geral e consolida resultados.'
+        },
+        {
+          keys: ['tool', 'ferramenta'],
+          text: 'Regra de Ouro #3: mantenha 4-5 ferramentas por agente. Menos que isso forca workarounds criativos; mais que isso causa confusao na selecao. Cada ferramenta deve ter nome descritivo, descricao clara, JSON Schema para parametros e retornar erros estruturados (nunca excecoes genericas).'
+        },
+        {
+          keys: ['mcp', 'server'],
+          text: 'MCP (Model Context Protocol) conecta agentes a servidores de ferramentas. Configuracao local fica em .mcp.json (no repositorio, compartilhada via git). Configuracao global fica em ~/.claude.json (pessoal, nao compartilhada). Servidores MCP podem expor ferramentas, recursos e prompts. Use stdio para servidores locais e SSE para remotos.'
+        },
+        {
+          keys: ['claude.md', 'configuracao'],
+          text: 'CLAUDE.md segue uma hierarquia de 3 niveis: (1) ~/.claude/CLAUDE.md — configuracao global do usuario, (2) ./CLAUDE.md na raiz do projeto — compartilhado via repositorio, (3) ./subpasta/CLAUDE.md — regras especificas para aquele contexto. Niveis mais especificos sobrescrevem os mais gerais. Use para definir convencoes, padroes e instrucoes persistentes.'
+        },
+        {
+          keys: ['command', 'skill'],
+          text: 'Commands (slash commands) sao atalhos reutilizaveis definidos em .claude/commands/. Cada arquivo .md define um comando com prompt pre-configurado. Podem receber argumentos via $ARGUMENTS. Sao uteis para padronizar tarefas repetitivas como revisao de codigo, commits e debugging.'
+        },
+        {
+          keys: ['plan', 'mode'],
+          text: 'Plan mode (shift+tab para alternar) faz o agente planejar sem executar — ideal para tarefas complexas onde voce quer revisar a estrategia antes. No modo de execucao direta, o agente age imediatamente. A boa pratica e: planejar primeiro em tarefas de alto risco, executar direto em tarefas simples e bem definidas.'
+        },
+        {
+          keys: ['few-shot', 'exemplo'],
+          text: 'Regra de Ouro #5: Exemplos > Instrucoes. Few-shot examples (2-3 pares de entrada/saida) sao mais eficazes que paragrafos de instrucoes. O modelo aprende o padrao implicitamente. Coloque exemplos no system prompt ou em CLAUDE.md. Quanto mais proximo o exemplo do caso real, melhor o resultado.'
+        },
+        {
+          keys: ['json', 'schema', 'estruturad'],
+          text: 'Para saida estruturada, use tool_use com JSON Schema. Defina o schema com tipos, descricoes e campos obrigatorios. O modelo retorna JSON valido seguindo o schema. Isso e mais confiavel que pedir "retorne em JSON" no prompt. Combine com retry + validacao para garantir conformidade.'
+        },
+        {
+          keys: ['retry', 'validacao'],
+          text: 'O padrao retry com feedback de erro funciona assim: (1) tente a operacao, (2) se falhar, capture o erro estruturado, (3) inclua o erro no contexto da proxima tentativa, (4) repita ate N tentativas. O segredo e passar o erro real (nao generico) para que o agente corrija o problema especifico. Limite de 2-3 retries e recomendado.'
+        },
+        {
+          keys: ['batch'],
+          text: 'A Message Batches API permite enviar ate 10.000 requisicoes em lote com 50% de desconto no custo. Ideal para avaliacoes em massa, migracao de dados e testes automatizados. O processamento leva ate 24 horas. Use results_url para recuperar resultados. Cada item no batch e independente.'
+        },
+        {
+          keys: ['review', 'instancia'],
+          text: 'Regra de Ouro #4: Revisao Independente. Para saidas criticas, use um segundo agente (ou instancia separada) para validar. O revisor nao tem acesso ao raciocinio do primeiro agente — avalia apenas o resultado. Isso evita vies de confirmacao. Em CI/CD, pode ser um step separado no pipeline.'
+        },
+        {
+          keys: ['contexto', 'lost', 'middle'],
+          text: 'O efeito "lost in the middle" faz o modelo prestar menos atencao a informacoes no meio de contextos longos. Estrategias: (1) coloque informacoes criticas no inicio e fim do prompt, (2) use resumos compactos para contextos extensos, (3) divida tarefas em subtarefas com contexto focado, (4) use /compact para comprimir historico quando necessario.'
+        },
+        {
+          keys: ['escala', 'escalacao'],
+          text: 'Padroes de escalacao: (1) Agente detecta que esta fora do escopo e escala ao orquestrador, (2) Limites de iteracao atingidos — retorna resultado parcial com status, (3) Erro critico — retorna erro estruturado para decisao humana. Sempre defina criterios claros de escalacao para evitar loops infinitos.'
+        },
+        {
+          keys: ['erro', 'error'],
+          text: 'Regra de Ouro #2: Erros Estruturados Sempre. Toda ferramenta deve retornar erros em formato como { "error": true, "code": "VALIDATION_FAILED", "message": "...", "retry": true }. Nunca lance excecoes genericas. O campo "retry" indica se o agente deve tentar novamente. Isso permite tratamento programatico de falhas.'
+        },
+        {
+          keys: ['ci', 'cd', 'pipeline'],
+          text: 'Claude Code integra-se a CI/CD via modo headless (claude -p "tarefa" --output-format json). Pode executar em GitHub Actions, GitLab CI, etc. Casos de uso: revisao automatica de PRs, geracao de testes, verificacao de compliance. Use --allowedTools para restringir ferramentas no pipeline. Combine com hooks para auditoria.'
+        },
+        {
+          keys: ['regra', 'ouro', 'golden'],
+          text: 'As 5 Regras de Ouro do CCA:\n1. Hooks > Prompts — prefira mecanismos deterministicos\n2. Erros Estruturados Sempre — nunca excecoes genericas\n3. 4-5 Ferramentas por Agente — escopo focado\n4. Revisao Independente — segundo agente valida saidas criticas\n5. Exemplos > Instrucoes — few-shot supera descricoes longas'
+        },
+        {
+          keys: ['exame', 'prova', 'certificacao'],
+          text: 'Formato do exame CCA: 60 questoes de multipla escolha, 120 minutos de duracao, nota minima de 720 em 1000 para aprovacao. As questoes cobrem 5 dominios com pesos diferentes. Foque nos dominios de maior peso para maximizar sua pontuacao.'
+        },
+        {
+          keys: ['dominio', 'peso'],
+          text: 'Os 5 dominios e seus pesos:\n1. Arquitetura Agentica e Orquestracao — 27%\n2. Configuracao e Fluxos do Claude Code — 20%\n3. Engenharia de Prompt e Saida Estruturada — 20%\n4. Design de Ferramentas e Integracao MCP — 18%\n5. Gerenciamento de Contexto e Confiabilidade — 15%'
+        }
+      ];
+
+      var defaultResponse = 'Nao encontrei uma resposta especifica para essa pergunta. Tente perguntar sobre: loop agentico, hooks vs prompts, multi-agente, ferramentas, MCP, CLAUDE.md, few-shot, JSON schemas, CI/CD, ou as 5 regras de ouro.';
+
+      function addMessage(text, role) {
+        var div = document.createElement('div');
+        div.className = 'chat-msg ' + role;
+        div.textContent = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+      }
+
+      function getResponse(question) {
+        var q = question.toLowerCase();
+        for (var i = 0; i < responses.length; i++) {
+          var entry = responses[i];
+          for (var j = 0; j < entry.keys.length; j++) {
+            if (q.indexOf(entry.keys[j]) !== -1) {
+              return entry.text;
+            }
+          }
+        }
+        return defaultResponse;
+      }
+
+      function sendMessage(text) {
+        if (!text.trim()) return;
+        addMessage(text, 'user');
+        input.value = '';
+        setTimeout(function() {
+          addMessage(getResponse(text), 'assistant');
+        }, 300);
+      }
+
+      sendBtn.addEventListener('click', function() {
+        sendMessage(input.value);
+      });
+
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage(input.value);
+        }
+      });
+
+      chips.addEventListener('click', function(e) {
+        var chip = e.target.closest('.chat-chip');
+        if (chip) {
+          sendMessage(chip.dataset.question);
+        }
+      });
     })();
   </script>
 

@@ -130,6 +130,18 @@ h4 { font-size: 1.1rem; }
   color: var(--accent);
 }
 
+.nav-brand .brand-site {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.85em;
+}
+
+.nav-brand .brand-sep {
+  color: var(--border-hover);
+  margin: 0 0.15em;
+  font-weight: 300;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
